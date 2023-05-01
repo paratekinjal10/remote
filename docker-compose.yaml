@@ -1,0 +1,14 @@
+version: "3"
+services:
+  db:
+    image: mongo:latest
+    container_name: "db"
+    ports:
+      - "27017:27017"
+  spring-app:
+    image: 4.188.224.23:8083/springapp:${VERSION}
+    container_name: "app"
+    ports:
+      - "8085:8085"
+    links:
+      - db
