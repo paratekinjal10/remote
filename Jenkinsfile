@@ -123,8 +123,21 @@ pipeline {
 
         stage('Run containers') {
             steps {
-                sh "docker run -d --name db -p 27017:27017 mongo:latest"
-                sh "docker run -d --name app -p 8085:8085 4.188.224.23:8083/app:${VERSION}"
+                script {
+                    sh "docker run -d --name db -p 27017:27017 mongo:latest"
+                    sh "docker run -d --name app -p 8085:8085 4.188.224.23:8083/app:${VERSION}"
+                    
+                    def dbContainerId = sh(returnStdout: true, script: 'docker ps -aqf "name=db"').trim()
+                    def appContainerId = sh(returnStdout: true, script: 'docker ps -aqf "name=app"').trim()
+
+                    def dbIp = sh(returnStdout: true, script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $dbContainerId").trim()
+                    def appIp = sh(returnStdout: true, script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $appContainerId").trim()
+
+                    // Send email with container IPs
+                    emailext body: "DB container ID: $dbContainerId\nDB container IP: $dbIp\nApp container ID: $appContainerId\nApp container IP: $appIp",
+                             subject: 'Container IPs',
+                             to: 'youremail@example.com'
+                }
             }
         }
     }
