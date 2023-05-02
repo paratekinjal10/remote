@@ -95,14 +95,6 @@ pipeline {
 
         }
 
-        stage("Pull image"){
-            steps{
-    
-                
-
-            }
-        }
-
         stage('Run containers') {
             steps {
                 script {
