@@ -138,7 +138,7 @@ pipeline {
                     // Send email with container IPs
                     emailext body: "DB container ID: $dbContainerId\nDB container IP: $dbIp\nApp container ID: $appContainerId\nApp container IP: $appIp",
                              subject: 'Container IPs',
-                             to: 'youremail@example.com'
+                             to: 'devops473@gmail.com'
                 }
             }
         }
