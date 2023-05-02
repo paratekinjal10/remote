@@ -6,7 +6,7 @@ services:
     ports:
       - "27017:27017"
   spring-app:
-    image: 4.188.224.23:8083/springapp:${VERSION}
+    image: 4.188.224.23:8083/app:${VERSION}
     container_name: "app"
     ports:
       - "8085:8085"
