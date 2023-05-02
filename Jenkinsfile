@@ -20,14 +20,6 @@ pipeline {
 
     }
 
-    stages {
-        stage ('Get code') {
-
-            steps {
-                git branch: 'main', url: 'https://github.com/paratekinjal10/trial'
-            }
-        }
-
         stage("Sonar quality check") {
 
             steps {
