@@ -20,6 +20,8 @@ pipeline {
 
     }
 
+    stages{
+
         stage("Sonar quality check") {
 
             steps {
@@ -124,3 +126,4 @@ pipeline {
             }
         }
     }
+}    
