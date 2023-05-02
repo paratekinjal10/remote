@@ -43,7 +43,7 @@ pipeline {
 
               script{
 
-                    withSonarQubeEnv(installationName: 'sonar-server2' , credentialsId: 'jenkins3') {
+                    withSonarQubeEnv(installationName: 'sonar-server2' , credentialsId: 'jenkins-sonar') {
                     sh 'mvn sonar:sonar'
                     }        
 
@@ -87,10 +87,10 @@ pipeline {
                     
                     sh '''
                     
-                    docker build -t 4.188.224.23:8083/app:${VERSION} .
+                    docker build -t 4.188.224.23:8083/springapp:${VERSION} .
                     docker login -u admin -p nexus 4.188.224.23:8083
-                    docker push 4.188.224.23:8083/app:${VERSION}
-                    docker rmi 4.188.224.23:8083/app:${VERSION}
+                    docker push 4.188.224.23:8083/springapp:${VERSION}
+                    docker rmi 4.188.224.23:8083/springapp:${VERSION}
                     '''
                     
                     }
@@ -101,10 +101,29 @@ pipeline {
             }
 
         }
+
+        stage("Pull image and run application"){
+            steps{
+    
+                script{
+                    
+                    withCredentials([string(credentialsId: 'nexus', variable: 'nexus-cred')]) {
+                    
+                    sh "docker-compose -f docker-compose.yaml build"
+                    sh "docker-compose -f docker-compose.yaml up -d"
+                    
+                    }
+                                        
+
+                }
+
+            }
+        }
+    
+        post {
+		    always {
+			    mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "devops473@gmail.com";  
+		    }
+	    }
     }
-    post {
-		always {
-			mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "devops473@gmail.com";  
-		}
-	}
 }
