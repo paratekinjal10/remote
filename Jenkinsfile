@@ -28,15 +28,6 @@ pipeline {
             }
         }
 
-        stage ('Build') {
-
-            steps {
-                
-                sh 'mvn clean package'
-                
-            }
-        }
-
         stage("Sonar quality check") {
 
             steps {
@@ -64,7 +55,15 @@ pipeline {
                         
             }
         }
+        stage ('Build') {
 
+            steps {
+                
+                sh 'mvn clean package'
+                
+            }
+        }
+        
         // stage("Build docker image"){
     
         //    steps{
