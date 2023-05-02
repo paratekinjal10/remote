@@ -127,7 +127,7 @@ pipeline {
                     sh "docker container rm -f db"
                     sh "docker container rm -f app"
                     sh "docker run -d --name db -p 27017:27017 mongo:latest"
-                    sh "docker run -d --name app -p 8085:8085 4.188.224.23:8083/app:${VERSION}"
+                    sh "docker run -d --name app -p 8085:8085 --link db:mongo 4.188.224.23:8083/app:${VERSION}"
                     
                     def dbContainerId = sh(returnStdout: true, script: 'docker ps -aqf "name=db"').trim()
                     def appContainerId = sh(returnStdout: true, script: 'docker ps -aqf "name=app"').trim()
@@ -138,7 +138,7 @@ pipeline {
                     // Send email with container IPs
                     emailext body: "DB container ID: $dbContainerId\nDB container IP: $dbIp\nApp container ID: $appContainerId\nApp container IP: $appIp",
                              subject: 'Container IPs',
-                             to: 'devops473@gmail.com'
+                             to: 'youremail@example.com'
                 }
             }
         }
