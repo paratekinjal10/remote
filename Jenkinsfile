@@ -101,7 +101,7 @@ pipeline {
 
                 script{
                     
-                    sh "ssh deploy@52.152.148.35 'docker login -u admin -p nexus 4.188.224.23:8083'"
+                    sh "ssh deploy@20.51.138.163 'docker login -u admin -p nexus 4.188.224.23:8083'"
 
                     withCredentials([string(credentialsId: 'nexus', variable: 'nexus-cred')]) {
                     
