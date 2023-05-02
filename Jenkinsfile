@@ -124,6 +124,8 @@ pipeline {
         stage('Run containers') {
             steps {
                 script {
+                    sh "docker container rm -f db"
+                    sh "docker container rm -f app"
                     sh "docker run -d --name db -p 27017:27017 mongo:latest"
                     sh "docker run -d --name app -p 8085:8085 4.188.224.23:8083/app:${VERSION}"
                     
