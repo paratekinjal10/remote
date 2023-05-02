@@ -43,7 +43,7 @@ pipeline {
 
               script{
 
-                    withSonarQubeEnv(installationName: 'sonar-server2' , credentialsId: 'jenkins3') {
+                    withSonarQubeEnv(installationName: 'sonar-server2' , credentialsId: 'jenkins-sonar') {
                     sh 'mvn sonar:sonar'
                     }        
 
@@ -102,28 +102,24 @@ pipeline {
 
         }
 
-        stage("Pull image and run application"){
+        stage("Pull image"){
             steps{
     
                 script{
                     
                     withCredentials([string(credentialsId: 'nexus', variable: 'nexus-cred')]) {
                     
-                    sh "docker-compose -f docker-compose.yaml build"
-                    sh "docker-compose -f docker-compose.yaml up -d"
-                    
+                    sh '''
+                    docker pull 4.188.224.23:8083/app:${VERSION}  
+                    '''
                     }
+                    def image = docker.image('mongo:latest')
+                    image.pull()
                                         
-
                 }
 
             }
         }
     }
-        //post {
-	//	    always {
-	//		    mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "${currentBuild.result} CI: Project name -> ${env.JOB_NAME}", to: "devops473@gmail.com";  
-	//	    }
-	  //  }
 
 }
