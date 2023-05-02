@@ -43,7 +43,7 @@ pipeline {
 
               script{
 
-                    withSonarQubeEnv(installationName: 'sonar-server2' , credentialsId: 'jenkins2') {
+                    withSonarQubeEnv(installationName: 'sonar-server2' , credentialsId: 'jenkins3') {
                     sh 'mvn sonar:sonar'
                     }        
 
@@ -87,10 +87,10 @@ pipeline {
                     
                     sh '''
                     
-                    docker build -t 4.188.224.23:8083/springapp:${VERSION} .
+                    docker build -t 4.188.224.23:8083/app:${VERSION} .
                     docker login -u admin -p nexus 4.188.224.23:8083
-                    docker push 4.188.224.23:8083/springapp:${VERSION}
-                    docker rmi 4.188.224.23:8083/springapp:${VERSION}
+                    docker push 4.188.224.23:8083/app:${VERSION}
+                    docker rmi 4.188.224.23:8083/app:${VERSION}
                     '''
                     
                     }
