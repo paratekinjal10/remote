@@ -18,7 +18,7 @@ pipeline {
                     remote.allowAnyHosts = 'true'
                     
                     sshCommand remote: remote, command: "docker pull nginx", tty: true
-                    sshCommand remote: remote, command: 'docker run -p 8080:80 --name nginx_try nginx', tty: true
+                    sshCommand remote: remote, command: 'docker run -d -p 8080:80 --name nginx_try nginx', tty: true
                     }
 
                 }
