@@ -29,7 +29,7 @@ pipeline {
                 script{
                     
                 	sshagent(credentials: ['remote-ssh'], ignoreMissing: true) {
-			
+			sh " ssh -o StrictHostKeyChecking=no deploy@20.232.209.34"
 			sh '''
 				docker pull nginx
 				docker run --name mynginx -d -p 80:80 nginx
