@@ -22,7 +22,7 @@ pipeline {
                     remote.allowAnyHosts = 'true'
                     //sshCopy remote: remote, from: "docker-compose.yaml", into: ".", override: true
                     //sshRemove remote: remote, path: 'docker-compose.yaml'
-                    sshGet remote: remote, from: 'docker-compose.yaml', into: '.', failOnError: true , override: true
+                    sshGet remote: remote, from: '/var/lib/jenkins/workspace/remote/docker-compose.yaml', into: '.', failOnError: true , override: true
                     //sshCommand remote: remote, command: "docker-compose build", tty: true
                     sshCommand remote: remote, command: 'docker-compose up -d', tty: true
                     }
