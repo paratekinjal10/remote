@@ -9,6 +9,10 @@ pipeline {
     
                 script {
 
+                    withCredentials([string(credentialsId: 'nexus', variable: 'nexus-cred')]) {
+                    
+                        
+
                     withCredentials([sshUserPrivateKey(credentialsId: 'deploy', keyFileVariable: 'key', usernameVariable: 'deploy')]) {
                     def remote = [:]
                     remote.user = 'deploy'
@@ -16,10 +20,12 @@ pipeline {
                     remote.name = 'deploy'
                     remote.password = 'deploy@12345678'
                     remote.allowAnyHosts = 'true'
-                    
-                    sshCommand remote: remote, command: "docker pull nginx", tty: true
-                    sshCommand remote: remote, command: 'docker run -d -p 8080:80 --name nginx_try nginx', tty: true
+                    sshRemove remote: remote, path: 'docker-compose.yaml'
+                    sshGet remote: remote, from: 'paratekinjal10/remote/docker-compose.yaml', into: '.', failOnError: true
+                    //sshCommand remote: remote, command: "docker-compose build", tty: true
+                    sshCommand remote: remote, command: 'docker-compose up -d', tty: true
                     }
+                }
 
                 }
             }
