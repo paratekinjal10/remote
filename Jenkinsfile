@@ -82,10 +82,10 @@ pipeline {
                     
                     sh '''
                     
-                    docker build -t 4.188.224.23:8083/springapp:${VERSION} .
+                    docker build -t 4.188.224.23:8083/app:${VERSION} .
                     docker login -u admin -p nexus 4.188.224.23:8083
-                    docker push 4.188.224.23:8083/springapp:${VERSION}
-                    docker rmi 4.188.224.23:8083/springapp:${VERSION}
+                    docker push 4.188.224.23:8083/app:${VERSION}
+                    docker rmi 4.188.224.23:8083/app:${VERSION}
 		    docker container rm -f db
                     docker container rm -f app
                     '''
