@@ -30,7 +30,10 @@ pipeline {
                     
                 	sshagent(credentials: ['remote-ssh'], ignoreMissing: true) {
 			
-			sh "docker run hello-world"
+			sh '''
+				docker pull nginx
+				docker run --name mynginx -d -p 80:80 nginx
+			'''
 			}                  
 
                 }
