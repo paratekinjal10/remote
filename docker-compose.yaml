@@ -9,6 +9,6 @@ services:
     image: 4.188.224.23:8083/app:${VERSION}
     container_name: "app"
     ports:
-      - "8085:8085"
+      - "8080:8080"
     links:
       - db
