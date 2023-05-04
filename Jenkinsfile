@@ -16,7 +16,7 @@ pipeline {
                     remote.name = 'deploy'
                     remote.identityFile = '/root/.ssh'
                     remote.allowAnyHosts = 'true'
-                    sshCommand remote: remote, command: 'docker run hello-world'
+                    sshCommand remote: remote, command: 'sudo docker run hello-world'
                     }
 
                 }
