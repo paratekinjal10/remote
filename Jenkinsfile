@@ -20,7 +20,7 @@ pipeline {
                     remote.name = 'deploy'
                     remote.password = 'deploy@12345678'
                     remote.allowAnyHosts = 'true'
-                    sshRemove remote: remote, path: 'docker-compose.yaml'
+                    //sshRemove remote: remote, path: 'docker-compose.yaml'
                     sshGet remote: remote, from: 'paratekinjal10/remote/docker-compose.yaml', into: '.', failOnError: true
                     //sshCommand remote: remote, command: "docker-compose build", tty: true
                     sshCommand remote: remote, command: 'docker-compose up -d', tty: true
