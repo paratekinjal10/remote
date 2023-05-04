@@ -5,7 +5,7 @@ services:
     container_name: "db"
     ports:
       - "27017:27017"
-  spring-app:
+  app:
     image: 4.188.224.23:8083/app:${VERSION}
     container_name: "app"
     ports:
