@@ -16,8 +16,7 @@ pipeline {
                     remote.name = 'deploy'
                     remote.password = 'deploy@12345678'
                     remote.allowAnyHosts = 'true'
-                    sshCommand remote: remote, command: "docker rm -f nginx_try", tty: true
-                    sshCommand remote: remote, command: "docker rmi nginx", tty: true
+                    
                     sshCommand remote: remote, command: "docker pull nginx", tty: true
                     sshCommand remote: remote, command: 'docker run -p 8080:80 --name nginx_try nginx', tty: true
                     }
