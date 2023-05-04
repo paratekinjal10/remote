@@ -16,8 +16,8 @@ pipeline {
                     remote.name = 'deploy'
                     remote.password = 'deploy@12345678'
                     remote.allowAnyHosts = 'true'
-                    sshScript remote: remote, command: 'docker pull nginx'
-                    sshScript remote: remote, command: 'docker run -p 8080:80 nginx'
+                    sshCommand remote: remote, command: "docker pull nginx"
+                    sshCommand remote: remote, command: 'docker run -p 8080:80 nginx'
                     }
 
                 }
