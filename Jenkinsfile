@@ -14,7 +14,6 @@ pipeline {
                     remote.user = 'deploy'
                     remote.host = '20.232.209.34'
                     remote.name = 'deploy'
-                    remote.identityFile = '/root/.ssh'
                     remote.allowAnyHosts = 'true'
                     sshCommand remote: remote, command: 'docker pull nginx'
                     sshCommand remote: remote, command: 'docker run -p 8080:80 nginx'
