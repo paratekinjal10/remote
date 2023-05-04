@@ -20,7 +20,7 @@ pipeline {
                     remote.name = 'deploy'
                     remote.password = 'deploy@12345678'
                     remote.allowAnyHosts = 'true'
-                    sshCopy remote: remote, from: "docker-compose.yaml", into: "/var/lib/jenkins/workspace/remote", override: true
+                    //sshCopy remote: remote, from: "docker-compose.yaml", into: "/var/lib/jenkins/workspace/remote", override: true
                     //sshRemove remote: remote, path: 'docker-compose.yaml'
                     sshGet remote: remote, from: 'paratekinjal10/remote/docker-compose.yaml', into: '.', failOnError: true
                     //sshCommand remote: remote, command: "docker-compose build", tty: true
