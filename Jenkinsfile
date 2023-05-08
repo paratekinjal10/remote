@@ -1,6 +1,10 @@
 pipeline {
     agent any
+    environment{
     
+        VERSION = "${env.BUILD_ID}"
+
+    }
     stages {
         stage('Deploy') {
             steps {
@@ -8,7 +12,7 @@ pipeline {
                 script {
                     def managerEmail = 'devops473@gmail.com'
                     def subject = 'Deployment Request'
-                    def body = 'Please approve the deployment request at <link-to-form>'
+                    def body = 'Please approve the deployment request at <a href='${env.BUILD_URL}'>this link</a>'
                     
                     // Send an email to the manager with a link to the deployment request form using the email-ext plugin
                     emailext (
