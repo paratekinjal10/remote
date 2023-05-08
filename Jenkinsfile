@@ -1,34 +1,29 @@
+//this will grab user - who is running the job
+def user
+node {
+  wrap([$class: 'BuildUser']) {
+    user = env.BUILD_USER_ID
+  }
+  
+  emailext mimeType: 'text/html',
+                 subject: "[Jenkins]${currentBuild.fullDisplayName}",
+                 to: "devops473@gmail.com",
+                 body: '''<a href="${BUILD_URL}input">click to approve</a>'''
+}
+
 pipeline {
     agent any
-
     stages {
-    
-
-        stage("Run image on remote server"){
-            steps{
-    
-                script {
-
-                    withCredentials([string(credentialsId: 'nexus', variable: 'nexus-cred')]) {
-                    
-                        
-
-                    withCredentials([sshUserPrivateKey(credentialsId: 'deploy', keyFileVariable: 'key', usernameVariable: 'deploy')]) {
-                    def remote = [:]
-                    remote.user = 'deploy'
-                    remote.host = '20.232.209.34'
-                    remote.name = 'deploy'
-                    remote.password = 'deploy@12345678'
-                    remote.allowAnyHosts = 'true'
-                    sshCommand remote: remote, command: 'sudo docker login -u admin -p nexus 4.188.224.23:8083', tty: true
-                    sshCommand remote: remote, command: 'sudo docker pull 4.188.224.23:8083/app:49', tty: true
-                    sshCommand remote: remote, command: 'sudo docker pull mongo:latest', tty: true
-                    sshCommand remote: remote, command: 'sudo docker run -d --name db -p 27017:27017 mongo:latest', tty: true
-                    sshCommand remote: remote, command: 'sudo docker run -d --name app -p 8085:8085 --link db:mongo 4.188.224.23:8083/app:49', tty: true
-                    }
-                }
-
-                }
+        stage('deploy') {
+            input {
+                message "Should we continue?"
+                ok "Yes"
+            }
+            when {
+                expression { user == 'hardCodeApproverJenkinsId'}
+            }
+            steps {
+                sh "echo 'describe your deployment' "
             }
         }
     }
