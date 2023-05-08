@@ -1,29 +1,21 @@
-//this will grab user - who is running the job
-def user
-node {
-  wrap([$class: 'BuildUser']) {
-    user = env.BUILD_USER_ID
-  }
-  
-  emailext mimeType: 'text/html',
-                 subject: "[Jenkins]${currentBuild.fullDisplayName}",
-                 to: "devops473@gmail.com",
-                 body: '''<a href="${BUILD_URL}input">click to approve</a>'''
-}
-
 pipeline {
     agent any
+    
     stages {
-        stage('deploy') {
-            input {
-                message "Should we continue?"
-                ok "Yes"
-            }
-            when {
-                expression { user == 'hardCodeApproverJenkinsId'}
-            }
+        stage('Approval Gateway') {
             steps {
-                sh "echo 'describe your deployment' "
+                // Step 1: Create a deployment request form and send it to the manager
+                sh 'echo "Deployment request form"'
+                sh 'echo "Please review and approve the deployment request at <link-to-form>"'
+                
+                // Step 2: Wait for the manager to approve the request
+                timeout(time: 30, unit: 'MINUTES') {
+                    // Wait for the manager to approve the deployment request
+                    input message: 'Do you want to approve the deployment request?', ok: 'Approve', submitter: 'devops473@gmail.com'
+                }
+                
+                // Step 3: Deploy the code if the request is approved
+                sh 'echo "Approved"'
             }
         }
     }
